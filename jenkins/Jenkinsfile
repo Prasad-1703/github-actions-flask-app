@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "Prasad-1703/flask-app"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/Prasad-1703/flask-app.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $IMAGE_NAME .'
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                withCredentials([string(credentialsId: 'dockerhub-token', variable: 'DOCKER_HUB_TOKEN')]) {
+                    sh '''
+                    echo $DOCKER_HUB_TOKEN | docker login -u yourdockerhubusername --password-stdin
+                    docker push $IMAGE_NAME
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'docker run -d -p 5000:5000 $IMAGE_NAME'
+            }
+        }
+    }
+}
