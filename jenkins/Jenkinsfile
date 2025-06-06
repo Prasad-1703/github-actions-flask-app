@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Prasad-1703/flask-app.git'
+                git 'https://github.com/Prasad-1703/Jenkins.git'
             }
         }
 
