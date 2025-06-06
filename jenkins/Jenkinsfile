@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "Prasad-1703/flask-app"
+        IMAGE_NAME = "prasad1703/flask-app"
     }
 
     stages {
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'dockerhub-token', variable: 'DOCKER_HUB_TOKEN')]) {
                     sh '''
-                    echo $DOCKER_HUB_TOKEN | docker login -u yourdockerhubusername --password-stdin
+                    echo $DOCKER_HUB_TOKEN | docker login -u prasad1703 --password-stdin
                     docker push $IMAGE_NAME
                     '''
                 }
